@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🖍️</text></svg>">
+  <title>Doodling Game</title>
+  <meta name="keywords" content="Doodling, Canvas, Drawing, Brush Size, Brush Color, Save Drawing, Load Drawing" />
+  <meta name="description" content="Enjoy doodling on a canvas with this fun and interactive Doodling Game. Choose your brush size and color, save your creations, and load saved drawings for continued fun." />
+  <style>
+      body {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+      #c {
+          border: 1px solid #000;
+          background-color: #fff;
+          width: 500px;
+          height: 500px;
+          display: block;
+      }
+
+      button {
+          margin-right: 5px;
+          padding: 5px;
+          border-radius: 3px;
+          border: none;
+          color: #fff;
+          background-color: #333;
+          cursor: pointer;
+      }
+
+      button:hover {
+          background-color: #555;
+      }
+
+      input[type="range"] {
+          width: 100px;
+      }
+
+      input[type="color"] {
+          width: 50px;
+          height: 30px;
+          padding: 0;
+          margin: 0;
+          border: none;
+          border-radius: 3px;
+      }
+  </style>
+</head>
+<body>
+<canvas id="c" width="500" height="500" alt="Canvas for drawing"></canvas>
+<div id="btns">
+  <button id="clear-btn" title="Clear the canvas">Clear</button>
+  <input id="size-input" type="range" min="1" max="100" value="5" title="Select the brush size">
+  <input id="color-input" type="color" value="#000000" title="Select the brush color">
+  <button id="save-btn" title="Save the drawing">Save</button>
+  <button id="load-btn" title="Load a saved drawing">Load</button>
+</div>
+<script>
+  const canvas = document.getElementById("c");
+  const ctx = canvas.getContext("2d");
+  let drawing = false;
+
+  canvas.addEventListener("mousedown", (e) => {
+    drawing = true;
+    ctx.beginPath();
+    ctx.moveTo(e.clientX, e.clientY);
+  });
+
+  canvas.addEventListener("mousemove", (e) => {
+    if (drawing) {
+      ctx.lineTo(e.clientX, e.clientY);
+      ctx.stroke();
+    }
+  });
+
+  canvas.addEventListener("mouseup", () => {
+    drawing = false;
+  });
+
+  const clearBtn = document.getElementById("clear-btn");
+  clearBtn.addEventListener("click", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+
+  const sizeInput = document.getElementById("size-input");
+  sizeInput.addEventListener("input", () => {
+    ctx.lineWidth = sizeInput.value;
+  });
+
+  const colorInput = document.getElementById("color-input");
+  colorInput.addEventListener("input", () => {
+    ctx.strokeStyle = colorInput.value;
+  });
+
+  const saveBtn = document.getElementById("save-btn");
+  saveBtn.addEventListener("click", () => {
+    const img = canvas.toDataURL();
+    const link = document.createElement("a");
+    link.href = img;
+    link.download = "doodle.png";
+    link.click();
+  });
+
+  const loadBtn = document.getElementById("load-btn");
+  loadBtn.addEventListener("click", () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.addEventListener("change", () => {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        const img = new Image();
+        img.addEventListener("load", () => {
+          ctx.drawImage(img, 0, 0);
+        });
+        img.src = reader.result;
+      });
+      reader.readAsDataURL(input.files[0]);
+    });
+    input.click();
+  });
+</script>
+<script src="../sidebar.js" data-position="top-right"></script>
+</body>
+</html>

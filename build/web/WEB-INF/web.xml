@@ -1,0 +1,40 @@
+<web-app>
+    
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+<!--student page servlets-->
+
+
+<servlet>
+<servlet-name>UserLogin</servlet-name>
+<servlet-class>UserLogin</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>UserLogin</servlet-name>
+<url-pattern>/UserLogin</url-pattern>
+</servlet-mapping>
+
+
+<servlet>
+<servlet-name>UserRegistration</servlet-name>
+<servlet-class>UserRegistration</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>UserRegistration</servlet-name>
+<url-pattern>/UserRegistration</url-pattern>
+</servlet-mapping>
+
+
+<servlet>
+<servlet-name>AdminLogin</servlet-name>
+<servlet-class>AdminLogin</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>AdminLogin</servlet-name>
+<url-pattern>/AdminLogin</url-pattern>
+</servlet-mapping>
+
+
+
+</web-app>
